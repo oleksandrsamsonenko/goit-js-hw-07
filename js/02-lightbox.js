@@ -15,6 +15,8 @@ galleryItems.forEach((element) => {
 let gallery = new SimpleLightbox(".gallery a", {
   captionsData: `alt`,
   captionDelay: 250,
+  showCounter: false,
+  disableRightClick: true,
 });
 
 gallery.on("show.simplelightbox", function () {});
