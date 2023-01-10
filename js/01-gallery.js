@@ -9,23 +9,29 @@ galleryItems.forEach((element) =>
   )
 );
 
-const instance = basicLightbox.create(`
-`);
-
 const handleImageClick = (element) => {
   if (!element.target.classList.contains("gallery__image")) {
     return;
   }
   element.preventDefault();
-  instance.element().innerHTML = `<div class="modal"><img src="${element.target.dataset.source}"></img></div>`;
+
+  const instance = basicLightbox.create(
+    `<div class="modal"><img src="${element.target.dataset.source}"></img></div>`,
+    {
+      onShow: () => {
+        window.addEventListener(`keydown`, handleClick);
+      },
+      onClose: () => window.removeEventListener(`keydown`, handleClick),
+    }
+  );
+  const handleClick = function (event) {
+    if (event.key !== "Escape") {
+      return;
+    }
+    console.log(event.key);
+    instance.close();
+  };
   instance.show();
 };
 
 gallery.addEventListener(`click`, handleImageClick);
-
-window.addEventListener(`keydown`, (event) => {
-  if (event.key !== "Escape") {
-    return;
-  }
-  instance.close();
-});
